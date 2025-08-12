@@ -1,34 +1,48 @@
 package main
 
 import (
+	"bufio"
+	"cipherer/cipherer"
+	"flag"
 	"fmt"
-	"math/big"
+	"os"
 	"strings"
 )
 
-func main() {
-	fmt.Println("Enter hex number or 'stop' to exit:")
+var mode = flag.String("mode", "cipher", "Set 'cipher' or 'decipher'. Default is 'cipher'")
+var secretKey = flag.String("secret", "", "Your secret key. Must ccontain at least 1 character.")
 
-	var input string
+func main() {
+	flag.Parse()
+
+	switch *mode {
+	case "cipher":
+		userInput := getUserInput("Enter text to cipher: ")
+		cipheredText := cipherer.Cipher(userInput, *secretKey)
+		fmt.Println("You entered:", cipheredText)
+	case "decipher":
+		ciperedInput := getUserInput("Enter your cipher data to decipher: ")
+		decipheredText := cipherer.Decipher(ciperedInput, *secretKey)
+		fmt.Println("You entered:", decipheredText)
+	default:
+		fmt.Println("Invalid mode. Use 'cipher' or 'decipher'.")
+		os.Exit(1)
+	}
+
+}
+
+func getUserInput(msg string) string {
+	fmt.Print(msg)
+	reader := bufio.NewReader(os.Stdin)
 
 	for {
-		fmt.Scanln(&input)
+		userInput, err := reader.ReadString('\n')
 
-		if strings.ToLower(input) == "stop" {
-			break
-		}
-
-		i := new(big.Int)
-
-		if _, ok := i.SetString(processHex(input), 16); !ok {
-			fmt.Println("Invalid hex number")
+		if err != nil {
+			fmt.Println("Error reading input:", err)
 			continue
 		}
 
-		fmt.Println(i)
+		return strings.TrimRight(userInput, "\n")
 	}
-}
-
-func processHex(hexStr string) string {
-	return strings.TrimPrefix(hexStr, "0x")
 }
