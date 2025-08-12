@@ -18,12 +18,24 @@ func main() {
 	switch *mode {
 	case "cipher":
 		userInput := getUserInput("Enter text to cipher: ")
-		cipheredText := cipherer.Cipher(userInput, *secretKey)
-		fmt.Println("You entered:", cipheredText)
+		cipheredText, err := cipherer.Cipher(userInput, *secretKey)
+
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Error during encrypting text: %v\n", err)
+			os.Exit(1)
+		}
+
+		fmt.Println("You encrypted text:\n", cipheredText)
 	case "decipher":
 		ciperedInput := getUserInput("Enter your cipher data to decipher: ")
-		decipheredText := cipherer.Decipher(ciperedInput, *secretKey)
-		fmt.Println("You entered:", decipheredText)
+		decipheredText, err := cipherer.Decipher(ciperedInput, *secretKey)
+
+		if err != nil {
+			fmt.Println("Error during deciphering:", err)
+			os.Exit(1)
+		}
+
+		fmt.Println("Your decrypted text:\n", decipheredText)
 	default:
 		fmt.Println("Invalid mode. Use 'cipher' or 'decipher'.")
 		os.Exit(1)
