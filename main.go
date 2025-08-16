@@ -1,24 +1,22 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"mult_table/game"
+	"mult_table/questions"
+	"mult_table/shuffler"
+	"os"
+)
 
 func main() {
-	numbers := [...]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
-	fmt.Printf("%8v", "a\\b")
-
-	for _, number := range numbers {
-		fmt.Printf("%8d", number)
-	}
-	fmt.Print("\n\n")
-
-	for _, a := range numbers {
-		fmt.Printf("%8d", a)
-
-		for _, b := range numbers {
-			fmt.Printf("%8d", a*b)
-		}
-		fmt.Print("\n")
+	questions, err := questions.LoadQuestions()
+	if err != nil {
+		fmt.Printf("Error loading questions: %v\n", err)
+		os.Exit(1)
 	}
 
-	fmt.Print("\n")
+	shuffler.Shuffle(questions)
+
+	correctAnswers := game.Run(questions)
+	fmt.Printf("\nYou answered %d questions correctly!\n", correctAnswers)
 }
