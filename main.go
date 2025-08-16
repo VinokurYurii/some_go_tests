@@ -1,34 +1,24 @@
 package main
 
-import (
-	"fmt"
-	"math/big"
-	"strings"
-)
+import "fmt"
 
 func main() {
-	fmt.Println("Enter hex number or 'stop' to exit:")
+	numbers := [...]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	fmt.Printf("%8v", "a\\b")
 
-	var input string
-
-	for {
-		fmt.Scanln(&input)
-
-		if strings.ToLower(input) == "stop" {
-			break
-		}
-
-		i := new(big.Int)
-
-		if _, ok := i.SetString(processHex(input), 16); !ok {
-			fmt.Println("Invalid hex number")
-			continue
-		}
-
-		fmt.Println(i)
+	for _, number := range numbers {
+		fmt.Printf("%8d", number)
 	}
-}
+	fmt.Print("\n\n")
 
-func processHex(hexStr string) string {
-	return strings.TrimPrefix(hexStr, "0x")
+	for _, a := range numbers {
+		fmt.Printf("%8d", a)
+
+		for _, b := range numbers {
+			fmt.Printf("%8d", a*b)
+		}
+		fmt.Print("\n")
+	}
+
+	fmt.Print("\n")
 }
