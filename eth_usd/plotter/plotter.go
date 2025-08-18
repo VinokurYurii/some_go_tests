@@ -14,7 +14,7 @@ func GeneratePlotFor(pricePairs []csv_process.EtheriumPrice) (*plot.Plot, error)
 
 	for i := range pricePairs {
 		points[i].X = float64(pricePairs[i].Date.Unix())
-		points[i].Y = pricePairs[i].Pricw
+		points[i].Y = pricePairs[i].Price
 	}
 
 	pricePlot := plot.New()

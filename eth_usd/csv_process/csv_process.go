@@ -9,7 +9,7 @@ import (
 )
 
 type EtheriumPrice struct {
-	Pricw float64
+	Price float64
 	Date  time.Time
 }
 
@@ -45,7 +45,7 @@ func LoadDataFrom(path string) ([]EtheriumPrice, error) {
 		}
 
 		pricePairs = append(pricePairs, EtheriumPrice{
-			Pricw: parsedPrice,
+			Price: parsedPrice,
 			Date:  parsedDate,
 		})
 	}
